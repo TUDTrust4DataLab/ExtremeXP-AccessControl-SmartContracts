@@ -10,3 +10,4 @@ interface IUseCaseRule {
         address pdpAddress
     ) external;
 }
+

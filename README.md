@@ -1,66 +1,71 @@
+# 📘 Decentralised Access Control ABAC - ExtremeXP Project
+
+There is a flow of communication between the smart contracts when someone requests access to a resource. This request arrives on the ABAC proxy, a Back-End which acts as a PEP (Policy Enforcement Point), and sends the request to the PDP to evaluate if the requestor can access the resource. The PDP and other components are smart contracts running on-chain. PDP asks PAP to find a policy related to a resource, and when PAP finds it, it forwards the request to the use case smart contract related to the resource. In this use case, the smart contract has a policy to enforce on that resource. So, the use case smart contract evaluates the policy and returns the result to the PDP. PDP, then transmit the decision to PEP (Proxy ABAC).
+
+In a future version with the translator of policies, this approach will change a bit, with the decisions concentrated on PDP and the use cases smart contracts will also change to reflect the relationship of all contracts with a new component (translator). 
+
+The figure shows how the interaction is occurring in this version.
+
+![Sequence Diagram](img/ExtremeXP-Smart-Contracts_SIMPLE-seq-diagram.png)
+
+
+## 📂 Project Structure
+
+```bash
+.
+├── src/
+│   ├── PAP.sol                # Policy Administration Point
+│   ├── PDP.sol                # Policy Decision Point
+│   ├── PIP.sol                # Policy Information Point (context attributes)
+│   ├── interfaces/            # Interfaces: IPAP, IPDP, IUseCaseRule
+│   ├── Ideko.sol              # Use case: IDEKO
+│   ├── I2cat.sol              # Use case: I2CAT
+│   ├── Cs.sol                 # Use case: CS
+│   ├── Moby.sol               # Use case: MOBY
+│   └── Airbus.sol             # Use case: AIRBUS
+├── script/
+│   └── DeployAccessControl.s.sol  # Foundry deploy script
+├── foundry.toml               # Foundry configuration
+└── README.md                 # This file
+
+```
+
+
+ ## Future version.
+We will implement a Policy translator and integrate it with these smart contracts. One side of the translator should have been on-chain, and the other off-chain.
+
+
+
 ## Foundry
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+This project was developed using Foundry; however, another solidity framework, such as hardhat or remix, can be used. To do it, you need to copy the /src folder content to your preferred framework.
 
-Foundry consists of:
+For those who want to use Foundry, below are some commands:
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
 
-## Documentation
 
-https://book.getfoundry.sh/
+### Usage
 
-## Usage
-
-### Build
+#### Build
 
 ```shell
 $ forge build
 ```
 
-### Test
+#### Test
 
 ```shell
 $ forge test
 ```
 
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
+#### Anvil (a simulation of blockchain)
 
 ```shell
 $ anvil
 ```
 
-### Deploy
+#### Deploy
 
 ```shell
 $ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
 ```
